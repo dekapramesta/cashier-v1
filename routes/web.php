@@ -15,9 +15,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('first_home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home-slicing', [App\Http\Controllers\HomeController::class, 'slicingHome'])->name('home.slicing');
+
+
+Route::middleware(['auth', 'CekLevel:1'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+Route::middleware(['auth', 'CekLevel:2'])->group(function () {
+    Route::get('/home-slicing', [App\Http\Controllers\HomeController::class, 'slicingHome'])->name('home.slicing');
+});
+// Route::group(['middleware' => ['auth']], function () {
+
+   
+// });
